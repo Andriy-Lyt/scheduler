@@ -4,13 +4,6 @@ import classNames from "classnames";
 
 export default function Button(props) {
 
-/*   if (props.confirm) {
-    buttonClass += " button--confirm";
-  }
-  if(props.danger) {
-    buttonClass = " button--danger";
-  }
- */  
 let buttonClass = classNames(
   {
       button: true,
