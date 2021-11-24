@@ -5,14 +5,14 @@ import '../styles/InterviewerList.scss';
 export default function InterviewerList(props) {
 
   const printInterviewers = props.interviewers.map((interviewer) => {
-    // console.log("interviewer.name: ", interviewer.name, "props.interviewer:", props.interviewer);
+    // console.log("interviewer.name: ", interviewer.name, "props.interviewer:", props.interviewer, "value: ", value);
     return(
       <InterviewerListItem
         key={interviewer.id}
         name={interviewer.name}
         avatar={interviewer.avatar}
-        selected={interviewer.id === value}
-        setInterviewer={() => onChange(interviewer.id)}  
+        selected={interviewer.id === props.value}
+        setInterviewer={() => props.onChange(interviewer.id)}
       />
     );
   });
