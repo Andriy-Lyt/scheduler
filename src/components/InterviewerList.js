@@ -5,13 +5,13 @@ import '../styles/InterviewerList.scss';
 export default function InterviewerList(props) {
 
   const printInterviewers = props.interviewers.map((interviewer) => {
-    // console.log("interviewer.name: ", interviewer.name, "props.interviewer:", props.interviewer, "value: ", value);
     return(
       <InterviewerListItem
         key={interviewer.id}
         name={interviewer.name}
         avatar={interviewer.avatar}
         selected={interviewer.id === props.value}
+        //below onChange is a function declared in Forms.js line 17 and passed as props on line 37
         setInterviewer={() => props.onChange(interviewer.id)}
       />
     );
