@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Application.scss";
 import DayList from "./DayList.js";
+import Appointment from "components/Appointment/Index.js";
 
 const days = [
   {
@@ -25,6 +26,45 @@ const interviewer = {
   name: "Sylvia Palmer",
   avatar: "https://i.imgur.com/LpaY82x.png",
 };  
+
+const appointments = {
+  "1": {
+    id: 1,
+    time: "12pm",
+  },
+  "2": {
+    id: 2,
+    time: "1pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer:{
+        id: 3,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+  "3": {
+    id: 3,
+    time: "2pm",
+  },
+  "4": {
+    id: 4,
+    time: "3pm",
+    interview: {
+      student: "Archie Andrews",
+      interviewer:{
+        id: 4,
+        name: "Cohana Roy",
+        avatar: "https://i.imgur.com/FK8V841.jpg",
+      }
+    }
+  },
+  "5": {
+    id: 5,
+    time: "4pm",
+  }
+};
 
 export default function Application(props) {
   const [day, setDay] = useState("Monday");
@@ -56,6 +96,11 @@ export default function Application(props) {
       </section>
 
       <section className="schedule">
+        { Object.values(appointments).map((appointment) => {
+         return <Appointment key={appointment.id} {...appointment}  />
+          })
+        }
+        <Appointment key="last" time="5pm" />
         
       </section>
     </main>
