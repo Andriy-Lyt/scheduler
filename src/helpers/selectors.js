@@ -50,6 +50,16 @@ export default function getAppointmentsForDay(state, day) {
   return apptsForGivenDay;
 }
 
+export default function getInterview(state, interview) {
+    if (!interview) {
+      return null;
+    }
+    return ({
+      "student": state.appointments[interview]['interview'].student,
+      "interviewer": state.interviewers[interview]
+    })
+}
+
 //Tests ------------
 /* console.log('test 1');
 console.log("getAppointmentsForDay returns an array -------");
