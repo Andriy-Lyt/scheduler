@@ -11,7 +11,8 @@ const state = {
       appointments: [4, 5]
     }
   ],
-  appointments: {
+
+/*   appointments: {
     "1": { id: 1, time: "12pm", interview: null },
     "2": { id: 2, time: "1pm", interview: null },
     "3": {
@@ -26,6 +27,7 @@ const state = {
       interview: { student: "Chad Takahashi", interviewer: 2 }
     }
   }
+ */
 };
 
 test("getAppointmentsForDay returns an array", () => {

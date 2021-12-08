@@ -1,8 +1,9 @@
-import React, { useState, usEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./Application.scss";
 import DayList from "./DayList.js";
 import Appointment from "components/Appointment/Index.js";
 import axios from 'axios';
+import getAppointmentsForDay from '../helpers/selectors';
 
 const interviewer = {
   id: 1,
@@ -50,13 +51,25 @@ const appointments = {
 };
 
 export default function Application(props) {
-  const [days, setDays] = useState([]);
-  // console.log("day-state: ", day);
-  // const [interviewer, setInterviewer] = useState(false);
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {}
+  });  
 
-  usEffect(() => {
-    axios.get('localhost:8001/api/days').then(response => {
-        setDays(response);
+  // let dailyAppointments = [];
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+
+  const setDay = day => setState({ ...state, day });
+  // const setDays = days => setState(prev => { return {...prev, days} } ); // or: => ({...prev, days})
+
+  useEffect(() => {
+    Promise.all([
+      axios.get('/api/days'),
+      axios.get('/api/appointments')
+    ]).then((all) => {
+      // console.log("all[0]", all[0].data, "all[1])", all[1].data);
+      setState(prev => ({...prev, days: all[0].data , appointments: all[1].data}))
     })
   }, [])
 
@@ -71,8 +84,8 @@ export default function Application(props) {
           <hr className="sidebar__separator sidebar--centered" />
           <nav className="sidebar__menu">
           <DayList
-            days={days}
-            value={day}
+            days={state.days}
+            value={state.day}
             onChange={setDay}
           />
           </nav>
@@ -84,7 +97,7 @@ export default function Application(props) {
       </section>
 
       <section className="schedule">
-        { Object.values(appointments).map((appointment) => {
+        { dailyAppointments.map(appointment => {
          return <Appointment key={appointment.id} {...appointment}  />
           })
         }
