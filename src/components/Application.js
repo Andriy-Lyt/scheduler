@@ -3,8 +3,7 @@ import "./Application.scss";
 import DayList from "./DayList.js";
 import Appointment from "components/Appointment/Index.js";
 import axios from 'axios';
-import getAppointmentsForDay from '../helpers/selectors';
-import Fragment from 'Fragment';
+import {getAppointmentsForDay, getInterview} from '../helpers/selectors';
 
 const interviewer = {
   id: 1,
@@ -52,6 +51,7 @@ const appointments = {
 };
 
 export default function Application(props) {
+  //STATE
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -63,7 +63,7 @@ export default function Application(props) {
         "avatar": "https://i.imgur.com/LpaY82x.png"
       }
     }
-  });  
+  });
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
@@ -106,9 +106,10 @@ export default function Application(props) {
       <section className="schedule">
         { dailyAppointments.map(appointment => {
           const interview = getInterview(state, appointment.interview);
+          // console.log("appointment.interview: ", appointment.interview);
 
           return (
-            <>
+            <div>
               <Appointment
                 key={appointment.id}
                 id={appointment.id}
@@ -116,10 +117,10 @@ export default function Application(props) {
                 interview={interview}
               />
               <Appointment key="last" time="5pm" />
-            </>
+            </div>
           );
           })
-         };    
+         }   
 
       </section>
     </main>

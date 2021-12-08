@@ -69,7 +69,7 @@ test("getAppointmentsForDay returns an empty array when the day is not found", (
 });
  */
 
-//Test getInterview function
+//Test getInterview function -----------------------
 test("getInterview returns an object with the interviewer data", () => {
   const result = getInterview(state, state.appointments["3"].interview);
   expect(result).toEqual(

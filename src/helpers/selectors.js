@@ -1,4 +1,4 @@
-/*  const state = {
+  const state = {
   days: [
     {
       id: 1,
@@ -25,16 +25,29 @@
       time: "4pm",
       interview: { student: "Chad Takahashi", interviewer: 2 }
     }
+  },
+  interviewers: {
+    "1": {  
+      "id": 1,
+      "name": "Sylvia Palmer",
+      "avatar": "https://i.imgur.com/LpaY82x.png"
+    },
+    "2": {
+      id: 2,
+      name: "Tori Malcolm",
+      avatar: "https://i.imgur.com/Nmx0Qxo.png"
+    }
   }
-};
- */
 
-export default function getAppointmentsForDay(state, day) {
+};
+
+
+ function getAppointmentsForDay(state, day) {
   let apptsIDsAr = []; // array of apts IDs
   let apptsForGivenDay = []; //array of appts objects
 
   for(let dayObj of state.days) {
-    if(dayObj.name == day) {
+    if(dayObj.name === day) {
       apptsIDsAr = dayObj.appointments.slice(0);
       // console.log(apptsIDsAr);
       break;
@@ -46,21 +59,25 @@ export default function getAppointmentsForDay(state, day) {
       apptsForGivenDay.push(state.appointments[key]);
     }
   }
-  // console.log("apptsForGivenDay", apptsForGivenDay);
+  console.log("apptsForGivenDay", apptsForGivenDay);
   return apptsForGivenDay;
 }
 
-export default function getInterview(state, interview) {
+ function getInterview(state, interview) {
+   console.log("interview: selectors.js, line 54", interview);
     if (!interview) {
       return null;
     }
+    const interviewerId = interview.interviewer;
     return ({
-      "student": state.appointments[interview]['interview'].student,
-      "interviewer": state.interviewers[interview]
-    })
+      "student": interview.student,
+      "interviewer": state.interviewers[interviewerId]
+    });
 }
 
-//Tests ------------
+export {getAppointmentsForDay, getInterview};
+
+//Tests for getAppointmentsForDay() ------------
 /* console.log('test 1');
 console.log("getAppointmentsForDay returns an array -------");
 console.log(Array.isArray(getAppointmentsForDay(state, "Monday")) );
@@ -83,5 +100,15 @@ console.log('test 4');
 console.log("getAppointmentsForDay returns an empty array when the days data is empty");
 console.log(getAppointmentsForDay({ days: [] }, "Monday").length == 0);
  */
+
+ //Tests for getInterview() ------------
+// console.log("getInterview returns an object with the interviewer data");
+// console.log(getInterview(state, state.appointments["3"].interview));
+// console.log('');
+
+// console.log("getInterview returns null if no interview is booked");
+// console.log(getInterview(state, state.appointments["2"].interview) === null);
+
+
 
 
