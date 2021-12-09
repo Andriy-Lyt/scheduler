@@ -59,12 +59,12 @@
       apptsForGivenDay.push(state.appointments[key]);
     }
   }
-  console.log("apptsForGivenDay", apptsForGivenDay);
+  // console.log("apptsForGivenDay", apptsForGivenDay);
   return apptsForGivenDay;
 }
 
  function getInterview(state, interview) {
-   console.log("interview: selectors.js, line 54", interview);
+  //  console.log("interview: selectors.js, line 54", interview);
     if (!interview) {
       return null;
     }
