@@ -8,10 +8,13 @@ export default function useVisualMode(initial) {
   // console.log("history[0]: ", history[0]);
   
   function transition(mode, replace = false) {
+    //change mode and add another record to history
     if (!replace) {
       setMode(mode);
       history.push(mode);
-    } else {
+    } 
+    //change mode and replace current mode in history
+    else {
       setMode(mode);
       history.pop();
       history.push(mode);

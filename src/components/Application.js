@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Application.scss";
 import DayList from "./DayList.js";
-import Appointment from "components/Appointment/Index.js";
+import Appointment from "components/Appointment/index.js";
 import axios from 'axios';
 import {getAppointmentsForDay, getInterview} from '../helpers/selectors';
-import useVisualMode from '../hooks/useVisualMode';
+
 
 const interviewer = {
   id: 1,
@@ -52,7 +52,7 @@ const appointments = {
 };
 
 export default function Application(props) {
-  //STATE
+  //STATE --------
   const [state, setState] = useState({
     day: "Monday",
     days: [],
