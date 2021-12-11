@@ -1,14 +1,16 @@
-  const state = {
+/*   const state = {
   days: [
     {
       id: 1,
       name: "Monday",
-      appointments: [1, 2, 3]
+      appointments: [1, 2, 3],
+      interviewers: [1, 2]
     },
     {
       id: 2,
       name: "Tuesday",
-      appointments: [4, 5]
+      appointments: [4, 5],
+      interviewers: [1, 2]
     }
   ],
   appointments: {
@@ -40,8 +42,9 @@
   }
 
 };
+ */
 
-
+//getAppointmentsForDay() -------------------
  function getAppointmentsForDay(state, day) {
   let apptsIDsAr = []; // array of apts IDs
   let apptsForGivenDay = []; //array of appts objects
@@ -63,6 +66,33 @@
   return apptsForGivenDay;
 }
 
+//getInterviewersForDay() -------------------
+function getInterviewersForDay(state, day) {
+  let interviewersIDsAr = []; // array of interviewers IDs
+  let interviewersForGivenDay = []; //array of interviewers objects
+  // console.log( "state.days[0]:", state.days[0]);
+  // console.log('');
+  
+
+  for(let dayObj of state.days) {
+    if(dayObj.name === day) {
+      interviewersIDsAr = [...dayObj.interviewers];
+      // console.log("interviewersIDsAr, line 79: ", interviewersIDsAr);
+      // console.log("dayObj.interviewers, lime 80: ", dayObj.interviewers);
+      break;
+    }
+  };
+
+  for(let key in state.interviewers) {
+    if(interviewersIDsAr.includes(state.interviewers[key].id)){
+      interviewersForGivenDay.push(state.interviewers[key]);
+    }
+  }
+  // console.log("interviewersForGivenDay", interviewersForGivenDay);
+  return interviewersForGivenDay;
+}
+
+
  function getInterview(state, interview) {
   //  console.log("interview: selectors.js, line 54", interview);
     if (!interview) {
@@ -75,7 +105,15 @@
     });
 }
 
-export {getAppointmentsForDay, getInterview};
+export {getAppointmentsForDay, getInterview, getInterviewersForDay};
+
+//Tests for getInterviewersForDay() ------------
+/* console.log('test 2');
+console.log("getInterviewersForDay returns an array with a length matching the number of Interviewers for that day");
+console.log(getInterviewersForDay(state, "Monday").length == 2);
+console.log(getInterviewersForDay(state, "Monday"));
+console.log('');
+ */
 
 //Tests for getAppointmentsForDay() ------------
 /* console.log('test 1');
