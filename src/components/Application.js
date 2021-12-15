@@ -52,6 +52,7 @@ const appointments = {
 };
 
 export default function Application(props) {
+
   //STATE --------
   const [state, setState] = useState({
     day: "Monday",
@@ -70,8 +71,9 @@ export default function Application(props) {
 
   const setDay = day => setState({ ...state, day });
 
+  //bookInterview() funct, id means appointment_id
   function bookInterview(id, interview) {
-    console.log(id, interview);
+    // console.log(id, interview);
 
     const appointment = {
       ...state.appointments[id],
@@ -81,6 +83,7 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
+
     return axios.put('/api/appointments/'+id, {interview})
     .then((response) => {
       setState({
@@ -89,6 +92,26 @@ export default function Application(props) {
       });  
     })
   } // closing bookInterview()
+
+  //cancelInterview() funct
+  function cancelInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    
+    return axios.delete('/api/appointments/'+id, {interview})
+    .then((response) => {
+      setState({
+        ...state,
+        appointments
+      });  
+    })
+  }
 
   useEffect(() => {
     Promise.all([
@@ -136,8 +159,9 @@ export default function Application(props) {
                 id={appointment.id}
                 time={appointment.time}
                 interview={interview}
-                bookInterview={bookInterview}
                 interviewers={state.interviewers}
+                bookInterview={bookInterview}
+                cancelInterview={cancelInterview}
               />
               <Appointment key="last" time="5pm" />
             </div>
