@@ -97,7 +97,7 @@ export default function Application(props) {
   function cancelInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
-      interview: null
+      interview: interview
     };
     const appointments = {
       ...state.appointments,
