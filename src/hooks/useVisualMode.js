@@ -5,7 +5,7 @@ export default function useVisualMode(initial) {
   // console.log("mode: ", mode);
   
   const [history, setHistory] = useState([initial]);
-  console.log("history: ", history);
+  // console.log("history: ", history);
   
   function transition(mode, replace = false) {
     //change mode and add another record to history

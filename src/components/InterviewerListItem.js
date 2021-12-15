@@ -6,7 +6,7 @@ export default function InterviewerListItem(props) {
 
   let interviewersClass = {
     "interviewers__item": true,
-    "interviewers__item--selected": props.selected ? true : false
+    "interviewers__item--selected": props.selected  ? true : false
   }
   
   return (
