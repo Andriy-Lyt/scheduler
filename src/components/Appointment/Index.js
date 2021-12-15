@@ -16,6 +16,8 @@ export default function Appointment(props) {
   const DELETING = "DELETING";
   const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   // console.log("props.interview, index.js ln 20: ", props.interview);
 
@@ -33,7 +35,8 @@ export default function Appointment(props) {
     transition(SAVING); //show the SAVING indicator
 
     props.bookInterview(props.id, interview) // id means appointment_Id
-    .then(() => transition(SHOW));
+    .then(() => transition(SHOW))
+    .catch(error => transition(ERROR_SAVE,true));
   }
 
   //edit() funct
@@ -41,15 +44,15 @@ export default function Appointment(props) {
     save(studentName, interviewer);
   }
 
-
   //deleteInterview() funct
   function deleteInterview() {
 
-    transition(DELETING); //show the DELETING indicator
-
+    transition(DELETING, true); //show the DELETING indicator
+    
     const interview = null;
     props.cancelInterview(props.id, interview)
-    .then(() => transition(EMPTY));
+    .then(() => transition(EMPTY))
+    .catch(error => transition(ERROR_DELETE, true));
   }
 
 

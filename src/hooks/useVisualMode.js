@@ -11,24 +11,24 @@ export default function useVisualMode(initial) {
     //change mode and add another record to history
     if (!replace) {
       setMode(mode);
-      history.push(mode);
+      setHistory(prev => ([...prev, mode]));
     } 
     //change mode and replace current mode in history
     else {
       setMode(mode);
       history.pop();
-      history.push(mode);
+      setHistory(prev => ([...prev, mode]));
     }
   }
 
   function back() {
     if (history.length > 1) {
       let prevMode =  history.pop();
-      console.log("prevMode: ", history[history.length - 1]);
+      // console.log("prevMode: ", history[history.length - 1]);
       setMode(history[history.length - 1] );
     } else {
       setMode(history[0]);
-      console.log("history[0] = ", history[0]);
+      // console.log("history[0] = ", history[0]);
     }
   }
 
