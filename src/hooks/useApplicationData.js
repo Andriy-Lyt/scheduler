@@ -17,50 +17,6 @@ export default function useApplicationData() {
       }
     });
 
-    const setDay = day => setState({ ...state, day });
-
-  //bookInterview() funct, id means appointment_id
-  function bookInterview(id, interview) {
-    // console.log(id, interview);
-
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    return axios.put('/api/appointments/'+id, {interview})
-    .then((response) => {
-      setState({
-        ...state,
-        appointments
-      });  
-    })
-  } // closing bookInterview()
-
-  //cancelInterview() funct
-  function cancelInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: interview
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    
-    return axios.delete('/api/appointments/'+id, {interview})
-    .then((response) => {
-      setState({
-        ...state,
-        appointments
-      });  
-    })
-  }
-
     useEffect(() => {
       Promise.all([
         axios.get('/api/days'),
@@ -72,13 +28,94 @@ export default function useApplicationData() {
       })
     }, [])
 
+  const setDay = day => setState({ ...state, day });
+
+  //bookInterview() funct, id means appointment_id
+  function bookInterview(id, interview) {
+      // console.log(id, interview);
+
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+    };
+
+    const getSpotsForDay = (day) => {
+      console.log("day:", day);
+      
+      const appointmentsLength = day.appointments.length;
+      const totalAppointments = day.appointments.reduce((count, id) => {
+        if (appointments[id].interview) {
+          return count + 1;
+        }
+        return count;
+      }, 0)
+      console.log("totalAppointments: ", totalAppointments);
+      console.log("appointmentsLength:", appointmentsLength);
+      return appointmentsLength - totalAppointments;
+    }
+
+    const days = state.days.map((day) => {
+      if (day.appointments.includes(id)) {
+        return {...day, spots: getSpotsForDay(day) }
+      }
+      return day;
+    })
+    // const appointmentsLength = appointments.length; //Object.keys(appointments)
+
+      return axios.put('/api/appointments/'+id, {interview})
+      .then((response) => {
+        setState({
+          ...state,
+          days,
+          appointments,
+        });  
+      })
+  } // closing bookInterview()
+
+  //cancelInterview() funct
+  function cancelInterview(id, interview) {
+      const appointment = {
+        ...state.appointments[id],
+        interview: interview
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      
+      return axios.delete('/api/appointments/'+id, {interview})
+      .then((response) => {
+        setState({
+          ...state,
+          appointments
+        });  
+      })
+  }
   
   return {
     state,
-    // setState,
     setDay,
     bookInterview,
     cancelInterview,
+    // setState,
     // useEffect
   }
 }
+
+/*     function emptyInterviewSpots(appointments) {
+      let usedInterviewSpots = 0;
+
+      for(let key in appointments) {
+        if (appointments[key].interview) {
+          usedInterviewSpots ++;
+        }
+      }
+      const freeSpots = 5 - usedInterviewSpots;
+      console.log("emptyInterviewSpots: ", freeSpots);
+      return freeSpots;
+    }
+ */
