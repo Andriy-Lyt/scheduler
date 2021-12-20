@@ -1,4 +1,5 @@
 # Interview Scheduler
+This app allows to schedule an interview for the given Student with the selected Interviewer.
 
 ## Setup
 

@@ -17,6 +17,8 @@ export default function useApplicationData() {
       }
     });
 
+    // console.log("process.env.REACT_APP_WEBSOCKET_URL: ", process.env.REACT_APP_WEBSOCKET_URL);
+
     useEffect(() => {
       Promise.all([
         axios.get('/api/days'),
@@ -25,7 +27,19 @@ export default function useApplicationData() {
       ]).then((all) => {
         setState(prev => ({...prev, days: all[0].data, 
           appointments: all[1].data, interviewers: all[2].data }))
-      })
+      });
+
+      const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+      
+      socket.onmessage = (event) => {
+        // console.log("event.data: ", event.data);
+        const parsedData = JSON.parse(event.data);
+        if (parsedData.type === "SET_INTERVIEW") {
+          console.log("parsedData: ", parsedData);   
+          // bookInterview(parsedData.id, parsedData.interview);
+        }
+        // socket.send("ping");
+      };
     }, [])
 
   const setDay = day => setState({ ...state, day });
@@ -53,8 +67,8 @@ export default function useApplicationData() {
         }
         return count;
       }, 0)
-      console.log("totalAppointments: ", totalAppointments);
-      console.log("appointmentsLength:", appointmentsLength);
+      // console.log("totalAppointments: ", totalAppointments);
+      // console.log("appointmentsLength:", appointmentsLength);
       return appointmentsLength - totalAppointments;
     }
 
