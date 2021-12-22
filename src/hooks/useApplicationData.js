@@ -35,7 +35,7 @@ export default function useApplicationData() {
         // console.log("event.data: ", event.data);
         const parsedData = JSON.parse(event.data);
         if (parsedData.type === "SET_INTERVIEW") {
-          console.log("parsedData: ", parsedData);   
+          // console.log("parsedData: ", parsedData);   
           // bookInterview(parsedData.id, parsedData.interview);
         }
         // socket.send("ping");
