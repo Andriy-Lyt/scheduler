@@ -10,16 +10,18 @@ export default function Form(props) {
   // console.log("interviewer state, in Form.js line 9:", interviewer );
   // console.log("props.interviewer.id, in Form.js line 10:", props.interviewer.id || null );
 
-  function validate(name, interviwer) {
+  function validate(name, interviewer) {
     if (name === "") {
       setError("Student name cannot be blank");
       return;
     }
-    props.onSave(name, interviwer);
+    setError("");
+    props.onSave(name, interviewer);
   }
 
   const reset = () => {
     setStudent("");
+    setError("");
     setInterviewer(null);
   }
   const cancel = () => {
@@ -58,5 +60,5 @@ export default function Form(props) {
         </section>
       </section>
     </main>
-  )
+  );
 }
