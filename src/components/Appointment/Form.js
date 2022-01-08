@@ -6,9 +6,6 @@ export default function Form(props) {
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
-  // console.log("student:", student);
-  // console.log("interviewer state, in Form.js line 9:", interviewer );
-  // console.log("props.interviewer.id, in Form.js line 10:", props.interviewer.id || null );
 
   function validate(name, interviewer) {
     if (name === "") {

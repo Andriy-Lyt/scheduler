@@ -1,48 +1,3 @@
-/*   const state = {
-  days: [
-    {
-      id: 1,
-      name: "Monday",
-      appointments: [1, 2, 3],
-      interviewers: [1, 2]
-    },
-    {
-      id: 2,
-      name: "Tuesday",
-      appointments: [4, 5],
-      interviewers: [1, 2]
-    }
-  ],
-  appointments: {
-    "1": { id: 1, time: "12pm", interview: null },
-    "2": { id: 2, time: "1pm", interview: null },
-    "3": {
-      id: 3,
-      time: "2pm",
-      interview: { student: "Archie Cohen", interviewer: 2 }
-    },
-    "4": { id: 4, time: "3pm", interview: null },
-    "5": {
-      id: 5,
-      time: "4pm",
-      interview: { student: "Chad Takahashi", interviewer: 2 }
-    }
-  },
-  interviewers: {
-    "1": {  
-      "id": 1,
-      "name": "Sylvia Palmer",
-      "avatar": "https://i.imgur.com/LpaY82x.png"
-    },
-    "2": {
-      id: 2,
-      name: "Tori Malcolm",
-      avatar: "https://i.imgur.com/Nmx0Qxo.png"
-    }
-  }
-
-};
- */
 
 //getAppointmentsForDay() -------------------
  function getAppointmentsForDay(state, day) {
@@ -52,7 +7,6 @@
   for(let dayObj of state.days) {
     if(dayObj.name === day) {
       apptsIDsAr = dayObj.appointments.slice(0);
-      // console.log(apptsIDsAr);
       break;
     }
   };
@@ -62,7 +16,6 @@
       apptsForGivenDay.push(state.appointments[key]);
     }
   }
-  // console.log("apptsForGivenDay", apptsForGivenDay);
   return apptsForGivenDay;
 }
 
@@ -70,15 +23,11 @@
 function getInterviewersForDay(state, day) {
   let interviewersIDsAr = []; // array of interviewers IDs
   let interviewersForGivenDay = []; //array of interviewers objects
-  // console.log( "state.days[0]:", state.days[0]);
-  // console.log('');
   
 
   for(let dayObj of state.days) {
     if(dayObj.name === day) {
       interviewersIDsAr = [...dayObj.interviewers];
-      // console.log("interviewersIDsAr, line 79: ", interviewersIDsAr);
-      // console.log("dayObj.interviewers, lime 80: ", dayObj.interviewers);
       break;
     }
   };
@@ -88,13 +37,11 @@ function getInterviewersForDay(state, day) {
       interviewersForGivenDay.push(state.interviewers[key]);
     }
   }
-  // console.log("interviewersForGivenDay", interviewersForGivenDay);
   return interviewersForGivenDay;
 }
 
 
  function getInterview(state, interview) {
-  //  console.log("interview: selectors.js, line 54", interview);
     if (!interview) {
       return null;
     }
@@ -106,6 +53,8 @@ function getInterviewersForDay(state, day) {
 }
 
 export {getAppointmentsForDay, getInterview, getInterviewersForDay};
+
+
 
 //Tests for getInterviewersForDay() ------------
 /* console.log('test 2');
