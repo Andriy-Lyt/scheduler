@@ -79,5 +79,32 @@ export default {
         data:fixtures.interviewers
       });
     }
+  }), // closing get()
+
+  put: jest.fn(url => {
+    if (url === "/appointments/:id") {
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content"
+      })
+    } else { return Promise.reject({
+      status: 404,
+      statusText: "page not found"
+      })
+    }
+  }),
+
+  delete: jest.fn(url => {
+    if (url === "/appointments/:id") {
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content"
+      })
+    } else { return Promise.reject({
+      status: 404,
+      statusText: "page not found"
+      })
+    }
   })
+  
 }

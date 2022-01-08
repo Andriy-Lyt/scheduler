@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 
 export default function useApplicationData() {
@@ -17,8 +17,6 @@ export default function useApplicationData() {
       }
     });
 
-    // console.log("process.env.REACT_APP_WEBSOCKET_URL: ", process.env.REACT_APP_WEBSOCKET_URL);
-
     useEffect(() => {
       Promise.all([
         axios.get('/api/days'),
@@ -32,13 +30,9 @@ export default function useApplicationData() {
       const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
       
       socket.onmessage = (event) => {
-        // console.log("event.data: ", event.data);
         const parsedData = JSON.parse(event.data);
         if (parsedData.type === "SET_INTERVIEW") {
-          // console.log("parsedData: ", parsedData);   
-          // bookInterview(parsedData.id, parsedData.interview);
         }
-        // socket.send("ping");
       };
     }, [])
 
@@ -46,7 +40,6 @@ export default function useApplicationData() {
 
   //bookInterview() funct, id means appointment_id
   function bookInterview(id, interview) {
-      // console.log(id, interview);
 
       const appointment = {
         ...state.appointments[id],
@@ -58,7 +51,6 @@ export default function useApplicationData() {
     };
 
     const getSpotsForDay = (day) => {
-      console.log("day:", day);
       
       const appointmentsLength = day.appointments.length;
       const totalAppointments = day.appointments.reduce((count, id) => {
@@ -67,8 +59,6 @@ export default function useApplicationData() {
         }
         return count;
       }, 0)
-      // console.log("totalAppointments: ", totalAppointments);
-      // console.log("appointmentsLength:", appointmentsLength);
       return appointmentsLength - totalAppointments;
     }
 
@@ -78,7 +68,6 @@ export default function useApplicationData() {
       }
       return day;
     })
-    // const appointmentsLength = appointments.length; //Object.keys(appointments)
 
       return axios.put('/api/appointments/'+id, {interview})
       .then((response) => {
@@ -87,7 +76,7 @@ export default function useApplicationData() {
           days,
           appointments,
         });  
-      })
+      });
   } // closing bookInterview()
 
   //cancelInterview() funct
@@ -100,14 +89,37 @@ export default function useApplicationData() {
         ...state.appointments,
         [id]: appointment
       };
+  
+      //test added ----------------
+      const getSpotsForDay = (day) => {
       
+        const appointmentsLength = day.appointments.length;
+        const totalAppointments = day.appointments.reduce((count, id) => {
+          if (appointments[id].interview) {
+            return count + 1;
+          }
+          return count;
+        }, 0)
+        return appointmentsLength - totalAppointments;
+      }
+  
+      const days = state.days.map((day) => {
+        if (day.appointments.includes(id)) {
+          return {...day, spots: getSpotsForDay(day) }
+        }
+        return day;
+      })
+  
+
+    //return
       return axios.delete('/api/appointments/'+id, {interview})
       .then((response) => {
         setState({
           ...state,
+          days,
           appointments
         });  
-      })
+      });
   }
   
   return {
@@ -115,21 +127,5 @@ export default function useApplicationData() {
     setDay,
     bookInterview,
     cancelInterview,
-    // setState,
-    // useEffect
   }
 }
-
-/*     function emptyInterviewSpots(appointments) {
-      let usedInterviewSpots = 0;
-
-      for(let key in appointments) {
-        if (appointments[key].interview) {
-          usedInterviewSpots ++;
-        }
-      }
-      const freeSpots = 5 - usedInterviewSpots;
-      console.log("emptyInterviewSpots: ", freeSpots);
-      return freeSpots;
-    }
- */
